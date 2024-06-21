@@ -159,33 +159,39 @@
 
             // Clear form fields if needed
             // form.reset();
-            const myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
+            const apiUrl = 'http://127.0.0.1:8000/api/send-email/';
 
-const raw = JSON.stringify({
-  "to_email": "srejusjayakumar@gmail.com",
-  "context": {
-    "name": "Your OTP for Login",
-    "otp": "6523",
-    "hint_text": "Do not Share with anyone",
-    "bg_color": "white"
-  },
-  "api_key": "25a36e7d3c7f4e3",
-  "template_id": 6,
-  "subject": "OTP For Login"
-});
+            const requestData = {
+                to_email: 'srejusjayakumar@gmail.com',
+                context: {
+                    // head: 'New Contact Received',
+                    // sub_head: 'We provide the best quality Shoes for all your needs.',
+                    message: message
+                },
+                api_key: '6dbb76f4f40d432',  // Replace with your actual API key
+                subject: 'New Contact Received - '+subject
+            };
 
-const requestOptions = {
-  method: "POST",
-  headers: myHeaders,
-  body: raw,
-  redirect: "follow"
-};
-
-fetch("https://supersent.in/api/send-email/", requestOptions)
-  .then((response) => response.text())
-  .then((result) => console.log(result))
-  .catch((error) => console.error(error));
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+                // mode: 'no-cors',
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Email sent successfully:', data);
+            })
+            .catch(error => {
+                console.error('Error sending email:', error);
+            });
 
         });
     });
