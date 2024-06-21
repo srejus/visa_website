@@ -126,7 +126,7 @@
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="text-center">
-                                <button class="btn btn-primary py-3 px-4" type="submit" style="width: 100%;">Send Message</button>
+                                <button class="btn btn-primary py-3 px-4" style="width: 100%;">Send Message</button>
                             </div>
                         </form>
                     </div>
@@ -135,6 +135,61 @@
         </div>
     </div>
     <!-- Contact End -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        // Select the form element
+        var form = document.getElementById("contactForm");
+
+        // Add submit event listener
+        form.addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get input field values
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var subject = document.getElementById("subject").value;
+            var message = document.getElementById("message").value;
+
+            // Log values to console (you can replace this with your actual processing logic)
+            console.log("Name:", name);
+            console.log("Email:", email);
+            console.log("Subject:", subject);
+            console.log("Message:", message);
+
+            // Clear form fields if needed
+            // form.reset();
+            const myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+const raw = JSON.stringify({
+  "to_email": "srejusjayakumar@gmail.com",
+  "context": {
+    "name": "Your OTP for Login",
+    "otp": "6523",
+    "hint_text": "Do not Share with anyone",
+    "bg_color": "white"
+  },
+  "api_key": "25a36e7d3c7f4e3",
+  "template_id": 6,
+  "subject": "OTP For Login"
+});
+
+const requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: raw,
+  redirect: "follow"
+};
+
+fetch("https://supersent.in/api/send-email/", requestOptions)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
+
+        });
+    });
+    </script>
 
 
     <!-- Footer Start -->
@@ -224,7 +279,7 @@
 
     <!-- Contact Javascript File -->
     <script src="mail/jqBootstrapValidation.min.js"></script>
-    <script src="mail/contact.js"></script>
+    <!-- <script src="mail/contact.js"></script> -->
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
