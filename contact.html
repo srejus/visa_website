@@ -151,22 +151,51 @@
             var subject = document.getElementById("subject").value;
             var message = document.getElementById("message").value;
 
+            if (name === "") {
+                alert("Name field is missing");
+                document.getElementById("name").style.borderColor = "red";
+                return false;
+            }
+            if (email === "") {
+                alert("Email field is missing");
+                document.getElementById("email").style.borderColor = "red";
+                return false;
+            }
+            if (subject === "") {
+                alert("Subject field is missing");
+                document.getElementById("subject").style.borderColor = "red";
+                return false;
+            }
+            if (message === "") {
+                alert("Message field is missing");
+                document.getElementById("message").style.borderColor = "red";
+                return false;
+            }
+
+            document.getElementById("name").style.borderColor = "#ddd";
+            document.getElementById("email").style.borderColor = "#ddd";
+            document.getElementById("subject").style.borderColor = "#ddd";
+            document.getElementById("message").style.borderColor = "#ddd";
+
             // Log values to console (you can replace this with your actual processing logic)
             console.log("Name:", name);
             console.log("Email:", email);
             console.log("Subject:", subject);
             console.log("Message:", message);
 
+
+            let msg = 'From : '+name+"\nEmail : "+email+"\nSubject : "+subject+"\nMessage : "+message;
+
             // Clear form fields if needed
             // form.reset();
-            const apiUrl = 'http://127.0.0.1:8000/api/send-email/';
+            const apiUrl = 'https://supersent.in/api/send-email/';
 
             const requestData = {
                 to_email: 'srejusjayakumar@gmail.com',
                 context: {
                     // head: 'New Contact Received',
                     // sub_head: 'We provide the best quality Shoes for all your needs.',
-                    message: message
+                    message: msg
                 },
                 api_key: '6dbb76f4f40d432',  // Replace with your actual API key
                 subject: 'New Contact Received - '+subject
@@ -184,6 +213,8 @@
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
+                alert("Contact Form Submitted Successfully!");
+                // form.reset();
                 return response.json();
             })
             .then(data => {
